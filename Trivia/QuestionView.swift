@@ -9,26 +9,28 @@ struct QuestionView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Navigation bar
+            // Custom navigation bar
             HStack {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "chevron.left")
+                        .foregroundColor(.white)
                 }
                 Spacer()
                 Text(pack.title ?? "Questions")
                     .font(.headline)
+                    .foregroundColor(.white)
                 Spacer()
                 Button(action: {
                     // Handle share action
                 }) {
                     Image(systemName: "square.and.arrow.up")
+                        .foregroundColor(.white)
                 }
             }
             .padding()
             .background(Color.black)
-            .foregroundColor(.white)
             
             // Question card
             ZStack {
@@ -51,6 +53,7 @@ struct QuestionView: View {
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
+                        .foregroundColor(.black)
                         .padding()
                     }
                     .aspectRatio(3/4, contentMode: .fit)
@@ -92,6 +95,9 @@ struct QuestionView: View {
                 }
             }
         }
+        .background(Color.black)
+        .preferredColorScheme(.dark)
+        .navigationBarHidden(true)
         .onAppear {
             loadQuestions()
         }

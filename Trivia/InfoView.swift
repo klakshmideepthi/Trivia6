@@ -6,11 +6,14 @@ struct InfoView: View {
     @State private var timer: Timer?
     @State private var offset: CGFloat = UIScreen.main.bounds.height
     @State private var dragOffset: CGFloat = 0
-    
+    @State private var isGotItPressed = false
+    @State private var isPressedPermanently = false
+    @State private var buttonOffset: CGFloat = 0
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Color.black.opacity(0.5)
+                Color.black.opacity(0.8)
                     .edgesIgnoringSafeArea(.all)
                     .onTapGesture {
                         dismissOverlay(geometry: geometry)
@@ -30,8 +33,7 @@ struct InfoView: View {
                                 image: Image(systemName: "hand.tap.fill"),
                                 text: "Click to change the theme",
                                 subImage: Image("theme-selector")
-                            ).tag(0)
-                            
+                            ).tag(0)           
                             instructionView(
                                 image: Image(systemName: "hand.tap.fill"),
                                 text: "Click a pack for new questions",
@@ -41,6 +43,7 @@ struct InfoView: View {
                         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                         .frame(height: 200)
                         .transition(.slide)
+                        .foregroundColor(.black)
                         
                         HStack {
                             Circle()
@@ -52,7 +55,15 @@ struct InfoView: View {
                         }
                         
                         Button(action: {
-                            dismissOverlay(geometry: geometry)
+                            if !isPressedPermanently {
+                                withAnimation(.easeInOut(duration: 0.3)) {
+                                    isGotItPressed = true
+                                    isPressedPermanently = true
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    dismissOverlay(geometry: geometry)
+                                }
+                            }
                         }) {
                             Text("Got it!")
                                 .fontWeight(.semibold)
@@ -62,13 +73,14 @@ struct InfoView: View {
                                 .background(Color.black)
                                 .cornerRadius(10)
                         }
+                        .animation(.spring(response: 0.3, dampingFraction: 0.6), value: isGotItPressed)
                         .padding(.bottom, 20)
                     }
                     .padding()
                     .background(Color.white)
                     .cornerRadius(20)
                     .shadow(radius: 10)
-                    .frame(width: geometry.size.width, height: 380) // Set fixed height here
+                    .frame(width: geometry.size.width, height: geometry.size.height * 0.5) // Changed height
                 }
                 .offset(y: offset + dragOffset)
                 .gesture(

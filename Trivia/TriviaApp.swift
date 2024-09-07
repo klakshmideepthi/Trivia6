@@ -14,6 +14,7 @@ struct TriviaApp: App {
                         UserDefaults.standard.set(true, forKey: "hasLoadedSampleData")
                     }
                 }
+                .preferredColorScheme(.dark)
         }
     }
 }

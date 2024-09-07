@@ -3,28 +3,28 @@ import CoreData
 
 struct SampleData {
     static func loadSampleData(context: NSManagedObjectContext) {
-        let deepPacks = [
-            ("History Buffs", "Test your knowledge of the past", "📜", false),
-            ("Science Geeks", "Explore the wonders of science", "🔬", true),
-            ("Pop Culture Pros", "From movies to music, prove your expertise", "🎬", true),
-            ("Geography Gurus", "Travel the world with your mind", "🌎", true),
-            ("Literature Lovers", "Dive into the world of books", "📚", true)
+        let gossipPacks = [
+            ("Spill the Tea", "pov: you just had an hour-long gossip session", "😈", false),
+            ("Juicy Convos", "All about relationships, cheating, and exes!", "🍑", true),
+            ("Confessions", "Expose your hidden secrets, no one is safe.", "🤫", true),
+            ("Spicy Questions", "Turn up the heat with - extra risqué dares.", "🥵", true),
+            ("Would You Rather", "The classic game but much more intense.", "🤔", true)
         ]
         
         let couplePacks = [
-            ("Relationship Quiz", "How well do you know your partner?", "❤️", false),
-            ("Date Night Trivia", "Spice up your evening with fun questions", "🍷", true),
-            ("Love Language Test", "Discover your love languages", "💕", true),
-            ("Couples' Compatibility", "Are you truly meant to be?", "🔐", true),
-            ("Romantic Movie Buff", "Test your knowledge of rom-coms", "🎥", true)
+            ("Couple Questions", "Questions that will leave you feeling closer.", "💌", false),
+            ("For Soulmates", "Get real, vulnerable and — deepen your love.", "💞", true),
+            ("Couple Therapy", "Deep & rarely-asked questions. Meant to heal.", "🤍", true),
+            ("For Long-Distance", "Warning: this will make it difficult to hang up.", "📹", true),
+            ("Naughty Questions", "Questions for every couple's favorite subject.", "💋", true)
         ]
         
-        let gossipPacks = [
-            ("Celebrity Gossip", "Stay up-to-date with the stars", "🌟", false),
-            ("Scandal Central", "Revisit the biggest controversies", "🗞️", true),
-            ("Reality TV Drama", "From housewives to bachelors", "📺", true),
-            ("Fashion Faux Pas", "Relive the most memorable style mishaps", "👗", true),
-            ("Social Media Buzz", "Test your knowledge of viral moments", "📱", true)
+        let deepPacks = [
+            ("Deep Questions", "Questions that hit deep.", "✨", false),
+            ("Late Night Talks", "Get to know each other — for real.", "🌙", true),
+            ("For Best Friends", "How well do you really know them?", "✌️", true),
+            ("Getting to Know", "Questions to meet someone new.", "👥", true),
+            ("For Siblings", "Ask each other before it's too late.", "🖤", true)
         ]
         
         func createPacks(_ packs: [(String, String, String, Bool)], category: String) {

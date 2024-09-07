@@ -8,7 +8,7 @@ struct SettingsView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Color.black.opacity(0.5)
+                Color.black.opacity(0.8)
                     .edgesIgnoringSafeArea(.all)
                     .onTapGesture {
                         dismissOverlay(geometry: geometry)
@@ -17,7 +17,7 @@ struct SettingsView: View {
                 VStack {
                     Spacer()
                     
-                    VStack {
+                    VStack() {
                         RoundedRectangle(cornerRadius: 5)
                             .fill(Color.gray)
                             .frame(width: 40, height: 5)
@@ -27,44 +27,20 @@ struct SettingsView: View {
                             .font(.title)
                             .fontWeight(.bold)
                             .padding(.top)
+                            .foregroundColor(.black)
                         
-                        List {
-                            Button(action: {}) {
-                                HStack {
-                                    Text("Promo Code")
-                                    Spacer()
-                                    Image(systemName: "lock.fill")
-                                }
-                            }
-                            Button(action: {}) {
-                                HStack {
-                                    Text("Share the app")
-                                    Spacer()
-                                    Image(systemName: "link")
-                                }
-                            }
-                            Button(action: {}) {
-                                HStack {
-                                    Text("I have feedback")
-                                    Spacer()
-                                    Image(systemName: "heart.fill")
-                                }
-                            }
-                            Button(action: {}) {
-                                HStack {
-                                    Text("Send us a message")
-                                    Spacer()
-                                    Image(systemName: "hand.wave.fill")
-                                }
-                            }
+                        VStack(spacing: 0) {
+                            SettingsButton(text: "Promo Code", iconName: "lock.fill")
+                            SettingsButton(text: "Share the app", iconName: "link")
+                            SettingsButton(text: "I have feedback", iconName: "heart.fill")
+                            SettingsButton(text: "Send us a message", iconName: "hand.wave.fill")
                         }
-                        .listStyle(PlainListStyle())
+                        .cornerRadius(10)
                     }
                     .padding()
-                    .background(Color.white)
+                    .background(Color(hex: "#F5F6F4")) // Changed from Color.gray
                     .cornerRadius(20)
-                    .shadow(radius: 10)
-                    .frame(width: geometry.size.width, height: 380)
+                    .frame(width: geometry.size.width, height: geometry.size.height * 0.5) // Changed height
                 }
                 .offset(y: offset + dragOffset)
                 .gesture(
@@ -100,5 +76,52 @@ struct SettingsView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
             showSettings = false
         }
+    }
+}
+
+struct SettingsButton: View {
+    let text: String
+    let iconName: String
+    
+    var body: some View {
+        Button(action: {}) {
+            HStack {
+                Text(text)
+                    .foregroundColor(.black)
+                Spacer()
+                Image(systemName: iconName)
+                    .foregroundColor(.black)
+            }
+            .padding()
+        }
+        .background(Color.white)
+    }
+}
+
+// Add this extension at the end of the file
+extension Color {
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (1, 1, 1, 0)
+        }
+
+        self.init(
+            .sRGB,
+            red: Double(r) / 255,
+            green: Double(g) / 255,
+            blue:  Double(b) / 255,
+            opacity: Double(a) / 255
+        )
     }
 }
